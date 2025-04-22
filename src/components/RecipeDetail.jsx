@@ -16,18 +16,17 @@ const RecipeDetail = () => {
   
   useEffect(() => {
     const fetchRecipe = async () => {
-      const url = `https://your-api-url.com/api/recipes/${id}`; // Replace with your API URL
+      const url = `https://fsa-recipe.up.railway.app/api/recipes/${id}`;
 
       try {
         const response = await fetch(url);
+        console.log(response)
         const data = await response.json();
-
-        if (response.ok) {
-          setRecipe(data.recipe); // Assuming the API returns the recipe in data.recipe
+        console.log(data)
+        
+          setRecipe(data); // Assuming the API returns the recipe in data.recipe
           setError(null);
-        } else {
-          setError(data.message || 'Failed to fetch recipe details.');
-        }
+        
       } catch (err) {
         setError('Error connecting to the server.');
         console.error(err);
@@ -45,10 +44,29 @@ const RecipeDetail = () => {
     return <p>Loading...</p>; // Show a loading message while fetching data
   }
 
+  const setFavorite = async() => {
+    const token = localStorage.getItem("token")
+    console.log(token)
+    const response = await fetch(`https://fsa-recipe.up.railway.app/api/favorites`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            mealId: recipe.idMeal,
+            name: recipe.strMeal,
+            imageUrl: recipe.strMealThumb,
+            strArea: recipe.strArea
+        })
+    });
+  }
+
   return (
     <div>
-      <h2>{recipe.title}</h2>
-      <img src={recipe.image} alt={recipe.title} />
+      <h2>{recipe.strMeal}</h2>
+      <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+      <button onClick={()=>setFavorite()}>Set Favorite</button>
       <p><strong>Ingredients:</strong></p>
       <ul>
         {recipe.ingredients.map((ingredient, index) => (
@@ -56,7 +74,7 @@ const RecipeDetail = () => {
         ))}
       </ul>
       <p><strong>Instructions:</strong></p>
-      <p>{recipe.instructions}</p>
+      <p>{recipe.strInstructions}</p>
     </div>
   );
 };

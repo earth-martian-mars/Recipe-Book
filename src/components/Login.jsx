@@ -17,7 +17,7 @@ const Login = () => {
     setError(null);
     setSuccess(null);
 
-    const url = 'https://your-api-url.com/api/auth/login';
+    const url = 'https://fsa-recipe.up.railway.app/api/auth/login';
 
     try {
       const response = await fetch(url, {
@@ -29,13 +29,9 @@ const Login = () => {
       });
 
       const data = await response.json();
-
-      if (response.ok) {
-        setSuccess('Login successful!');
-        // You can also store the token or user info in localStorage or context
-      } else {
-        setError(data.message || 'Login failed.');
-      }
+      console.log(data)
+      localStorage.setItem("token", data.token)
+      
     } catch (err) {
       setError('Error connecting to the server.');
       console.error(err);

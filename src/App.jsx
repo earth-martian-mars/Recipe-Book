@@ -8,7 +8,7 @@ import Register from './components/Register';
 import Favorites from './components/Favorites';
 
 
-const RecipeBook = () => {
+const App = () => {
   const [recipe, setRecipe] = useState([]);
   const [error, setError] = useState(null);
 
@@ -60,4 +60,4 @@ const RecipeBook = () => {
   );
 };
 
-export default RecipeBook;
+export default App;

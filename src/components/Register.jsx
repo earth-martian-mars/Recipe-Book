@@ -17,7 +17,7 @@ const Register = () => {
     setError(null);
     setSuccess(null);
 
-    const url = 'https://your-api-url.com/api/auth/register';
+    const url = 'https://fsa-recipe.up.railway.app/api/auth/register';
 
     try {
       const response = await fetch(url, {
@@ -25,10 +25,14 @@ const Register = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
+        body: JSON.stringify({
+            username,
+            password 
+          })
+        });
+        console.log(response)
+        const data = await response.json();
+        console.log(data)
 
       if (response.ok) {
         setSuccess('Registration successful! You can now log in.');
